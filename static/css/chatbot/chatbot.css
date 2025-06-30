@@ -1,0 +1,244 @@
+/* Basic Reset and Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* Chat Container */
+.chat-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #4b6cb7;
+    margin-bottom: 20px;
+    font-size: 2em;
+    border-bottom: 2px solid #4b6cb7;
+    padding-bottom: 10px;
+}
+
+/* Chat Box (Message Display Area) */
+.chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    min-height: 300px; /* Minimum height for scroll */
+    max-height: 70vh; /* Max height for responsiveness */
+    display: flex;
+    flex-direction: column; /* Stack messages vertically */
+}
+
+/* Individual Message Styles */
+.message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word; /* Ensure long words wrap */
+}
+
+.user-message {
+    background-color: #dcf8c6; /* Light green for user */
+    align-self: flex-end; /* Align to the right */
+    border-bottom-right-radius: 5px; /* Sharpen corner for user message */
+}
+
+.bot-message {
+    background-color: #e0f2f7; /* Light blue for bot */
+    align-self: flex-start; /* Align to the left */
+    border-bottom-left-radius: 5px; /* Sharpen corner for bot message */
+}
+
+.message p {
+    margin: 0;
+}
+
+/* Chat Input Area */
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: #4b6cb7;
+}
+
+#send-button {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #4b6cb7, #182848);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 80px; /* Ensure button doesn't get too small */
+}
+
+#send-button:hover {
+    background: linear-gradient(45deg, #182848, #4b6cb7);
+    transform: translateY(-2px);
+}
+
+#send-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Back to Home Button */
+.back-home-button {
+    display: block;
+    width: fit-content;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.back-home-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .chat-container {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .chat-box {
+        min-height: 250px;
+    }
+
+    .message {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .chat-input-area {
+        flex-direction: column; /* Stack input and button vertically */
+        gap: 8px;
+    }
+
+    #user-input, #send-button {
+        width: 100%;
+        margin: 0;
+    }
+    #send-button {
+        min-width: unset; /* Remove min-width on small screens */
+    }
+    .back-home-button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    .chat-container {
+        border-radius: 8px;
+        padding: 15px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    .chat-box {
+        min-height: 200px;
+        padding: 10px;
+    }
+    .message {
+        font-size: 0.85em;
+        padding: 8px 10px;
+    }
+    #user-input {
+        padding: 10px 12px;
+    }
+    #send-button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}
+/* Add this new CSS block at the end of your static/css/chatbot/chatbot.css file */
+
+/* Styles for the language select dropdown */
+#language-select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 0.9em;
+    background-color: #f0f0f0; /* Light grey background for the select box */
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: fit-content; /* Adjust width to content */
+    margin-top: 10px; /* Space above */
+    margin-bottom: 10px; /* Space below */
+}
+
+#language-select:focus {
+    border-color: #4b6cb7;
+    box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2); /* Light blue shadow on focus */
+}
+
+/* Style for Tamil text to ensure correct font is used */
+.tamil-text {
+    font-family: 'Noto Sans Tamil', sans-serif;
+}

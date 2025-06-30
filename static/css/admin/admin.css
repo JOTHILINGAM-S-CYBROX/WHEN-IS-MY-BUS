@@ -1,0 +1,521 @@
+/* All CSS specific to the admin page goes here, aiming for index page's UI feel */
+
+/* Basic Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0; /* Changed from 30px to 0 to allow gradient to cover fully */
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-height: 100vh;
+    color: #333; /* Default text color */
+}
+
+/* Authentication Status Bar - Adapted from index.css */
+.auth-status-bar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark */
+    color: #FFFFFF;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    line-height: 1.3;
+}
+.auth-status-bar a {
+    color: #FFD700; /* Gold links */
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.2s ease;
+}
+.auth-status-bar a:hover {
+    color: #FFE082; /* Lighter gold on hover */
+}
+
+/* Admin Container - This will act as the main content card */
+.admin-container {
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white for content card */
+    padding: 20px 30px;
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    margin: 50px auto 30px auto; /* Margin from top, auto for horizontal centering */
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Space between sections */
+}
+
+/* Headings - Adapted from index.css hero-title and results-heading */
+h1 {
+    color: #182848; /* Dark blue from gradient end */
+    margin-top: 0; /* Handled by admin-container margin */
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 2.8em; /* Larger for main title */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+h2 {
+    color: #4b6cb7; /* Blue from gradient start */
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(75, 108, 183, 0.3); /* Subtle blue line */
+}
+
+.message {
+    background-color: #e6f7ed; /* Light green for success */
+    color: #28a745;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #b3e6c3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.message.error {
+    background-color: #fdeded; /* Light red for error */
+    color: #dc3545;
+    border-color: #f0c3c3;
+}
+
+/* Form Styling - Adapted from index.css search-form */
+.route-form {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white for inner form */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333; /* Darker text for labels */
+    font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #c0c0c0; /* Softer border */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    flex-grow: 1;
+    background-color: #fcfcfc;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4b6cb7; /* Blue focus */
+    box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+}
+
+.form-group.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group.checkbox-group input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-top: 2px;
+    accent-color: #4b6cb7; /* Checkbox color */
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.form-actions button.add-button {
+    background-color: #5cb85c; /* Green like index.css today/tomorrow */
+    color: white;
+}
+
+.form-actions button.add-button:hover {
+    background-color: #4cae4c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.form-actions button.update-button {
+    background-color: rgb(82, 154, 180); /* Blue from index.css search button */
+    color: white;
+}
+
+.form-actions button.update-button:hover {
+    background-color: rgb(66, 123, 143);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.form-actions button.cancel-button {
+    background-color: #6c757d; /* Grey */
+    color: white;
+}
+
+.form-actions button.cancel-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* Admin Search and Filter - Similar to index.css input-group */
+.admin-search-filter {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Lighter transparent white */
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Table Styling - Adapted from index.css table styling */
+.admin-route-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.95); /* Matches admin-container */
+    padding: 15px; /* Added padding to ensure table is not flush with container */
+}
+
+.admin-route-table {
+    width: 100%;
+    border-collapse: separate; /* Use separate to allow border-radius on cells (thead/tbody) if needed */
+    border-spacing: 0;
+    min-width: 800px; /* Ensure table doesn't get too narrow */
+}
+
+.admin-route-table th,
+.admin-route-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    white-space: nowrap; /* Keep content on one line */
+}
+
+.admin-route-table th {
+    background-color: #f0f0f0; /* Light grey header */
+    color: #333;
+    font-weight: bold;
+    text-transform: capitalize; /* Don't force uppercase like old admin.css */
+    font-size: 1em; /* Standard font size */
+    letter-spacing: normal; /* Normal spacing */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+/* Top border radius for table headers */
+.admin-route-table thead tr:first-child th:first-child { border-top-left-radius: 10px; }
+.admin-route-table thead tr:first-child th:last-child { border-top-right-radius: 10px; }
+
+
+.admin-route-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Lightest grey for even rows */
+}
+
+.admin-route-table tbody tr:hover {
+    background-color: #f0f0f0; /* Lighter grey on hover */
+    transition: background-color 0.2s ease;
+}
+
+.admin-route-table .actions {
+    display: flex;
+    gap: 8px; /* Slightly reduced gap */
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 130px; /* Ensure space for buttons */
+}
+
+.admin-route-table .actions button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for action buttons */
+}
+
+.admin-route-table .actions .edit-button {
+    background-color: #FFD700; /* Gold */
+    color: #333;
+}
+
+.admin-route-table .actions .edit-button:hover {
+    background-color: #e0c200;
+    transform: translateY(-1px);
+}
+
+.admin-route-table .actions .delete-button {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.admin-route-table .actions .delete-button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Modal Styles (General for all popups) - Corrected display property */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    /* REMOVED: display: flex;  -- This was causing the issue */
+    justify-content: center; /* These will take effect when display is set to flex in JS */
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; /* Responsive width */
+    max-width: 500px; /* Max width */
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 1.8em;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 600;
+}
+
+/* Specific button styles for modal actions */
+#confirmDeleteBtn {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+#confirmDeleteBtn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+#cancelDeleteBtn, #closeStatusModalBtn {
+    background-color: #6c757d; /* Grey */
+    color: white;
+}
+
+#cancelDeleteBtn:hover, #closeStatusModalBtn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        margin: 0; /* Ensures full width use */
+    }
+    .admin-container {
+        margin: 30px 10px; /* Adjust for medium screens */
+        padding: 15px;
+        gap: 15px;
+    }
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .route-form, .admin-search-filter {
+        grid-template-columns: 1fr; /* Stack columns on small screens */
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-actions button {
+        width: 100%; /* Full width buttons */
+    }
+
+    .admin-route-table-container {
+        /* overflow-x: auto; is already handled for horizontal scrolling */
+    }
+
+    .admin-route-table th, .admin-route-table td {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .modal-content {
+        width: 95%; /* Adjust modal width for very small screens */
+        padding: 20px;
+    }
+    /* Keep auth-status-bar visible */
+    .auth-status-bar {
+        position: absolute; /* Keep it fixed */
+        top: 10px;
+        left: 10px;
+        font-size: 0.8em;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-container {
+        margin: 20px 5px; /* Even tighter margins for very small screens */
+        padding: 10px;
+        gap: 10px;
+        border-radius: 10px;
+    }
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+    h2 {
+        font-size: 1.3em;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+    }
+    .route-form {
+        padding: 15px;
+        gap: 15px;
+        border-radius: 10px;
+    }
+    .form-group label {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
+    .form-group input, .form-group select {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    .form-actions {
+        margin-top: 15px;
+        gap: 8px;
+    }
+    .form-actions button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+        border-radius: 6px;
+    }
+    .admin-search-filter {
+        padding: 15px;
+        gap: 10px;
+        border-radius: 10px;
+    }
+    .admin-route-table-container {
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .admin-route-table th, .admin-route-table td {
+        padding: 8px;
+        font-size: 0.8em;
+    }
+    .admin-route-table .actions {
+        gap: 5px;
+        min-width: 100px;
+    }
+    .admin-route-table .actions button {
+        padding: 6px 10px;
+        font-size: 0.75em;
+    }
+
+    .auth-status-bar {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-size: 0.7em;
+        padding: 4px 8px;
+    }
+}

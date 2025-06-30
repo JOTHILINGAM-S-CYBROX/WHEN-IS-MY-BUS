@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot/chatbot.css') }}">
+    <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/000/fff?text=AI">
+    <!-- Noto Sans Tamil for Tamil text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>AI Assistant</h1>
+        <div id="chat-box" class="chat-box">
+            <!-- Initial Bot Message with Language Selection and Welcome -->
+            <div class="message bot-message">
+                <p>Hello! I'm your Bus Travel Assistant. Please select your preferred language:</p>
+                <p class="tamil-text" style="margin-bottom: 10px;">வணக்கம்! நான் உங்கள் பேருந்து பயண உதவியாளர். உங்கள் விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்:</p>
+                
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                </select>
+                
+                <!-- The welcome message will be dynamically updated by JavaScript based on selection -->
+                <p id="dynamic-welcome-message" style="margin-top: 10px;">Welcome! How can I assist you today?</p>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+        <div id="loading-indicator" class="loading-indicator hidden">Thinking...</div>
+        <a href="/" class="back-home-button">Back to Bus Search</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chatbot/chatbot.js') }}"></script>
+</body>
+</html>

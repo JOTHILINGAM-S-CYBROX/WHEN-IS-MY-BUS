@@ -1,0 +1,252 @@
+/* General styling for the register page, similar to login.css */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Consistent theme */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    /* REMOVED: overflow: hidden; -- This was likely cutting off the button */
+    padding-bottom: 50px; /* Add generous padding to the bottom of the body */
+}
+
+.register-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px 30px 50px 30px; /* Increased bottom padding */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    animation: fadeInScale 0.5s ease-out;
+}
+
+.register-container h1 {
+    color: #182848;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px; /* Standard spacing for form groups */
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #4b6cb7;
+    box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+}
+
+/* Styling for the Send OTP and Verify OTP buttons */
+.otp-buttons, .form-group#otpGroup {
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-top: 15px; 
+}
+
+.otp-buttons button,
+.form-group#otpGroup button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4b6cb7;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+}
+
+.otp-buttons button:hover,
+.form-group#otpGroup button:hover {
+    background-color: #3b5a99;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.otp-buttons button:disabled,
+.form-group#otpGroup button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.register-button {
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 25px; /* Ensure sufficient space from elements above */
+    border: none;
+    border-radius: 8px;
+    background-color: #28a745; /* A distinct color for final register button */
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:hover {
+    background-color: #218838;
+}
+
+.message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.login-link {
+    margin-top: 20px;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.login-link a {
+    color: #4b6cb7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* reCAPTCHA container styling - invisible reCAPTCHA doesn't need much styling */
+#recaptcha-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* Modal Styles (copied from admin.css for consistency) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.5); 
+    justify-content: center; 
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 400px; 
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 1.8em;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 600;
+    background-color: #4b6cb7; /* Default modal button color */
+    color: white;
+}
+.modal-buttons button:hover {
+    background-color: #3b5a99;
+    transform: translateY(-1px);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .register-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    .register-container h1 {
+        font-size: 1.8em;
+    }
+    .form-group input,
+    .otp-buttons button,
+    .register-button,
+    .form-group#otpGroup input, /* Apply to OTP input as well */
+    .form-group#otpGroup button {
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+}

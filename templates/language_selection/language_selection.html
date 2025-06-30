@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Language</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/language_selection/language_selection.css') }}">
+    <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/000/fff?text=Lang">
+</head>
+<body>
+    <div class="language-container">
+        <h1>Select Your Language</h1>
+        <div class="language-options">
+            <button class="lang-button" data-lang="en">
+                <img src="https://placehold.co/40x40/f0f0f0/333333?text=🇬🇧" alt="English Flag">
+                <span>English</span>
+            </button>
+            <button class="lang-button" data-lang="ta">
+                <img src="https://placehold.co/40x40/f0f0f0/333333?text=🇮🇳" alt="Tamil Flag">
+                <span>தமிழ்</span>
+            </button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/language_selection/language_selection.js') }}"></script>
+</body>
+</html>

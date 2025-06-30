@@ -1,0 +1,112 @@
+/* Styling for the new language selection page */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Consistent with existing theme */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    overflow: hidden; /* Prevent scrollbars */
+}
+
+.language-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    animation: fadeInScale 0.5s ease-out;
+}
+
+.language-container h1 {
+    color: #182848;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.language-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.lang-button {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 150px; /* Ensure buttons are not too small */
+}
+
+.lang-button img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.lang-button:hover {
+    background-color: #e0e0e0;
+    border-color: #4b6cb7;
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    color: #182848;
+}
+
+.lang-button:active {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .language-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .language-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+
+    .lang-button {
+        width: 100%; /* Full width on small screens */
+        max-width: 250px; /* Max width for single column */
+        font-size: 1.1em;
+        padding: 15px 20px;
+    }
+    .language-options {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 15px;
+    }
+}

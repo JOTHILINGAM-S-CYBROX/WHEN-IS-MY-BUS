@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ messages.register_title }} - WHERE IS MY BUS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register/register.css') }}"> {# Corrected path #}
+    <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/000/fff?text=📝">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // Firebase Configuration (Replace with your actual config if different)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCr7r1GSGDZTX_H9sppbs0dhUzkhy4Zso4",
+            authDomain: "newfolder-2.firebaseapp.com",
+            projectId: "newfolder-2",
+            storageBucket: "newfolder-2.firebasestorage.app",
+            messagingSenderId: "291065465059",
+            appId: "1:291065465059:web:e55d8a88f39d28fa0fddd6",
+            measurementId: "G-5WZ6WQEYER"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        let recaptchaVerifier;
+        let confirmationResult;
+        let timerInterval;
+        let cooldownSeconds = 60; // Cooldown for resending OTP
+
+        // Global messages object passed from Flask
+        const messages = {{ messages | tojson | safe }};
+
+        // Function to display custom modals instead of alert()
+        function showStatusModal(message, isSuccess = true) {
+            const statusMessageModal = document.getElementById('statusMessageModal');
+            const statusMessageHeading = document.getElementById('statusMessageHeading');
+            const statusMessageText = document.getElementById('statusMessageText');
+            const closeStatusModalBtn = document.getElementById('closeStatusModalBtn');
+
+            statusMessageHeading.textContent = isSuccess ? messages.status_success : messages.status_error;
+            statusMessageHeading.style.color = isSuccess ? '#28a745' : '#dc3545';
+            statusMessageText.textContent = message;
+            statusMessageModal.style.display = 'flex'; // Use flex to center content
+            closeStatusModalBtn.textContent = messages.status_ok_button;
+
+            // Set up event listener for closing modal
+            closeStatusModalBtn.onclick = function() {
+                statusMessageModal.style.display = 'none';
+            };
+            // Close modal if clicked outside
+            statusMessageModal.onclick = function(event) {
+                if (event.target == statusMessageModal) {
+                    statusMessageModal.style.display = 'none';
+                }
+            };
+        }
+
+
+        window.onload = function() {
+            // Initialize reCAPTCHA verifier for phone authentication
+            recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible', // Invisible reCAPTCHA is generally better for UX
+                'callback': (response) => {
+                    // reCAPTCHA solved, allow sending OTP
+                    console.log("reCAPTCHA solved:", response);
+                },
+                'expired-callback': () => {
+                    // reCAPTCHA expired, reset it
+                    console.warn("reCAPTCHA expired. Please try again.");
+                    recaptchaVerifier.render().then(() => console.log("reCAPTCHA re-rendered."));
+                }
+            });
+            recaptchaVerifier.render().then((widgetId) => {
+                console.log("reCAPTCHA rendered with widget ID:", widgetId);
+            });
+        };
+
+        // Function to start the OTP resend cooldown timer
+        function startCooldown() {
+            const sendOtpBtn = document.getElementById('sendOtpBtn');
+            sendOtpBtn.disabled = true;
+            let remaining = cooldownSeconds;
+
+            sendOtpBtn.textContent = `${messages.resend_otp_button} (${remaining})`; // Use translated message
+
+            timerInterval = setInterval(() => {
+                remaining--;
+                sendOtpBtn.textContent = `${messages.resend_otp_button} (${remaining})`; // Use translated message
+
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    sendOtpBtn.disabled = false;
+                    sendOtpBtn.textContent = messages.send_otp_button; // Use translated message
+                }
+            }, 1000);
+        }
+
+        // Function to send OTP to the provided phone number
+        function sendOTP() {
+            const phoneInput = document.getElementById('phone');
+            const phone = phoneInput.value.trim();
+
+            if (!phone) {
+                showStatusModal(messages.enter_phone_number, false); // Use translated message
+                return;
+            }
+
+            // Ensure the phone number starts with the country code, e.g., +91 for India
+            // Firebase expects phone numbers in E.164 format (+[country code][phone number])
+            const formattedPhone = phone.startsWith('+') ? phone : `+91${phone}`; // Assuming +91 if not specified
+
+            // Perform phone authentication using Firebase
+            firebase.auth().signInWithPhoneNumber(formattedPhone, recaptchaVerifier)
+                .then((result) => {
+                    confirmationResult = result; // Store the confirmation result for later OTP verification
+                    showStatusModal(messages.otp_sent_success, true); // Use translated message
+                    startCooldown(); // Start the cooldown timer for resend
+                    // Make OTP input and verify button visible if they were hidden
+                    document.getElementById('otpGroup').style.display = 'flex';
+                })
+                .catch((error) => {
+                    console.error("Failed to send OTP:", error);
+                    // Display error message using the custom modal
+                    showStatusModal(`${messages.failed_send_otp}: ${error.message}`, false); // Use translated message
+                });
+        }
+
+        // Function to verify the entered OTP
+        function verifyOTP() {
+            const otpInput = document.getElementById('otp');
+            const code = otpInput.value.trim();
+
+            if (!code) {
+                showStatusModal(messages.enter_otp, false); // Use translated message
+                return;
+            }
+
+            if (!confirmationResult) {
+                showStatusModal(messages.send_otp_first, false); // Use translated message
+                return;
+            }
+
+            // Confirm the OTP using the stored confirmation result
+            confirmationResult.confirm(code)
+                .then(() => {
+                    showStatusModal(messages.phone_verified_success, true); // Use translated message
+                    document.getElementById('otp_verified').value = "true"; // Set hidden field to true
+                    // Optionally disable OTP fields after successful verification
+                    otpInput.disabled = true;
+                    document.getElementById('verifyOtpBtn').disabled = true;
+                    document.getElementById('sendOtpBtn').disabled = true; // Disable resend after verification
+                    clearInterval(timerInterval); // Stop any active cooldown timer
+                })
+                .catch((error) => {
+                    console.error("Invalid OTP:", error);
+                    showStatusModal(`${messages.invalid_otp}: ${error.message}`, false); // Use translated message
+                    document.getElementById('otp_verified').value = "false"; // Reset if verification fails
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="register-container">
+        <h1>{{ messages.register_title }}</h1>
+        {% if message %}
+            <p class="message error">{{ message }}</p>
+        {% endif %}
+        <form id="registerForm" method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="username">{{ messages.username_label }}:</label>
+                <input type="text" id="username" name="username" placeholder="{{ messages.username_placeholder }}" required>
+            </div>
+            <div class="form-group">
+                <label for="password">{{ messages.password_label }}:</label>
+                <input type="password" id="password" name="password" placeholder="{{ messages.password_placeholder }}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">{{ messages.phone_label }}:</label>
+                <input type="text" id="phone" name="phone" placeholder="{{ messages.phone_placeholder }}" required>
+            </div>
+
+            <div id="recaptcha-container"></div> <!-- reCAPTCHA container -->
+
+            <div class="form-group otp-buttons">
+                <button type="button" id="sendOtpBtn" onclick="sendOTP()">{{ messages.send_otp_button }}</button>
+            </div>
+
+            <div class="form-group" id="otpGroup" style="display: none;"> <!-- Hidden by default, shown after OTP sent -->
+                <label for="otp">{{ messages.enter_otp }}:</label>
+                <input type="text" id="otp" placeholder="{{ messages.otp_placeholder }}">
+                <button type="button" id="verifyOtpBtn" onclick="verifyOTP()">{{ messages.verify_otp_button }}</button>
+            </div>
+
+            <!-- Hidden input for OTP verification status -->
+            <input type="hidden" name="otp_verified" id="otp_verified" value="false">
+
+            <button type="submit" class="register-button">{{ messages.register_button }}</button>
+        </form>
+
+        <p class="login-link">
+            {{ messages.already_have_account }} <a href="{{ url_for('login') }}">{{ messages.login_link }}</a>
+        </p>
+    </div>
+
+    <!-- Status Message Modal (reusing the same structure as admin page) -->
+    <div id="statusMessageModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="statusMessageHeading"></h3>
+            <p id="statusMessageText"></p>
+            <div class="modal-buttons">
+                <button id="closeStatusModalBtn"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
